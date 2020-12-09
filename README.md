@@ -1,2 +1,1 @@
-# DataViz-World-ressources
-Projet visualisation interactive de données
+# Projet visualisation interactive de données
