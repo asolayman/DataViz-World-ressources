@@ -8,8 +8,8 @@ html {
 }
 
 h1 {
-  margin-bottom: 10px; 
-  font-family: Helvetica; 
+  margin-bottom: 10px;
+  font-family: Helvetica;
   color: #adadad;
 }
 
@@ -42,7 +42,7 @@ text {
 
 .outer-div {
   height: 1000px;
-  /* Bordure pour debug */ 
+  /* Bordure pour debug */
   border: 5px solid blue;
 
   /* Pour centrer horizontalement le contenu de cette div */
@@ -50,7 +50,7 @@ text {
 }
 
 .inner-div {
-  /* Bordure pour debug */	
+  /* Bordure pour debug */
   border: 5px solid yellow;
 
   /* Centrer verticalement */
