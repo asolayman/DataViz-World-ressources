@@ -62,3 +62,29 @@ text {
   display: inline-block;
   padding: 50px;
 }
+
+.hidden {
+  display: none;
+}
+
+.toolTip {
+  font-family: Helvetica;
+  color: #adadad;
+  background-color: #212121;
+  padding: .5em;
+  opacity: 0.9;
+  position: absolute;
+}
+
+.toolTipName {
+  font-family: Helvetica;
+  color: #adadad;
+  font-size: 16px;
+}
+
+.toolTipData {
+  font-family: Helvetica;
+  color: #adadad;
+  font-size: 12px;
+}
+
