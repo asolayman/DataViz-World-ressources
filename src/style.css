@@ -1,66 +1,95 @@
-body,
-html {
-  height: 100%;
-  background-color: #212121;
-  font-family: Helvetica;
-  color: #adadad;
-  font-size: 16px;
+body, html {
+    height: 100%;
+    background-color: #212121;
+    font-family: Helvetica;
+    color: #adadad;
+    font-size: 20px;
+}
+
+@media screen and (min-width: 800px) {
+    body, html {
+        font-size: 24px;
+    }
 }
 
 h1 {
-  margin-bottom: 10px;
-  font-family: Helvetica;
-  color: #adadad;
+    margin-bottom: 10px;
+    font-family: Helvetica;
+    color: #adadad;
 }
 
 text {
-  fill: #adadad;
-  font-family: Helvetica;
-  font-size: 18px;
+    fill: #adadad;
+    font-family: Helvetica;
+    font-size: 18px;
 }
 
-.parallax {
-  /* The image used */
-  background-color: #212121;
 
-  /* Full height */
-  height: 100%;
 
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-/* Turn off parallax scrolling for tablets and phones. Increase the pixels if needed */
-@media only screen and (max-device-width: 1366px) {
-  .parallax {
-    background-attachment: scroll;
-  }
-}
-
-.outer-div {
-  height: 1000px;
-  /* Bordure pour debug */
-  border: 5px solid blue;
-
-  /* Pour centrer horizontalement le contenu de cette div */
-  text-align: center;
+.content-div {
+    /* border: 5px solid blue; */
+    
+    text-align: center;
+    position: relative;
 }
 
 .inner-div {
-  /* Bordure pour debug */
-  border: 5px solid yellow;
+    /* border: 5px solid red; */
+    width: 100%;
 
-  /* Centrer verticalement */
-  position: relative;
-  top: 50%;
-  transform: perspective(1px) translateY(-50%);
+    text-align: justify;
+    position: relative;
+    display: inline-block;
+    padding: 15px;
+}
 
-  /* Centrer Horizontalement */
-  display: inline-block;
-  padding: 50px;
+@media screen and (min-width: 800px) {
+    .inner-div {
+        width: 70%;
+    }
+}
+
+.center-div {
+    text-align: center;
+}
+
+.spacing-div {
+    /* border: 5px solid yellow; */
+    min-height: 20%;
+    
+    text-align: center;
+    position: relative;
+}
+
+
+
+.head-div {
+    height: 80%;
+    background-color: black;
+}
+
+.head-img {
+    object-fit: none;
+    height: 100%;
+    width: 100%;
+    opacity: 0.4;
+}
+
+.head-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate( -50%, -50% );
+    color: white;
+    font-size: 76px;
+}
+
+
+
+.navbar-brand {
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
 }
 
 .hidden {
