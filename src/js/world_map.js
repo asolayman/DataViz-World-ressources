@@ -1,6 +1,6 @@
 // Lien des données + carte
 var mapLink = "https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/src/Carte_Du_Monde.json";
-var dataLink = "data.csv";
+var dataLink = "https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/src/data.csv";
 
 var metal = "Argent";
 

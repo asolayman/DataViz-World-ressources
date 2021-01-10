@@ -37,6 +37,11 @@ function drawPiechart(
 
   var arcGenerator = d3.arc().innerRadius(0).outerRadius(radius);
 
+  var outerArc = d3
+    .arc()
+    .innerRadius(radius * 1.1)
+    .outerRadius(radius);
+
   // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
   var slices = svg1
     .selectAll("mySlices")
@@ -48,7 +53,7 @@ function drawPiechart(
     .attr("stroke", "#adadad")
     .style("stroke-width", "3px")
     .style("opacity", 0.7);
-
+  /*
   svg1
     .selectAll("mySlices")
     .data(data_ready)
@@ -58,6 +63,46 @@ function drawPiechart(
     .attr("transform", (d) => "translate(" + arcGenerator.centroid(d) + ")")
     .style("text-anchor", "middle")
     .style("font-size", 17);
+*/
+
+  svg1
+    .selectAll("allPolylines")
+    .data(data_ready)
+    .enter()
+    .append("polyline")
+    .attr("stroke", "#adadad")
+    .style("fill", "none")
+    .attr("stroke-width", 1)
+    .attr("points", function (d) {
+      var posA = arcGenerator.centroid(d); // line insertion in the slice
+      var posB = outerArc.centroid(d); // line break: we use the other arc generator that has been built only for that
+      var posC = outerArc.centroid(d); // Label position = almost the same as posB
+      var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
+      posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
+      posC[0] *= 1.15
+      return [posA, posB, posC];
+    });
+
+  svg1
+    .selectAll("allLabels")
+    .data(data_ready)
+    .enter()
+    .append("text")
+    .text(function (d) {
+      console.log(d.data.key);
+      return d.data.key;
+    })
+    .attr("transform", function (d) {
+      var pos = outerArc.centroid(d);
+      var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+      pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+      pos[0] *= 1.15
+      return "translate(" + pos + ")";
+    })
+    .style("text-anchor", function (d) {
+      var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+      return midangle < Math.PI ? "start" : "end";
+    });
 
   slices
     .on("mousemove", function (e, d) {
@@ -82,4 +127,7 @@ function drawPiechart(
 }
 
 drawPiechart("#piechart1");
-drawPiechart("#piechart2", { a: 50, b: 50 }, ["#7b6888", "#6b486b"], {a: "truc a", b: "truc b"});
+drawPiechart("#piechart2", { a: 50, b: 50 }, ["#7b6888", "#6b486b"], {
+  a: "truc a",
+  b: "truc b",
+});
