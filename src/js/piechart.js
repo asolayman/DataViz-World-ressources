@@ -60,6 +60,8 @@ function drawPiechart(div_id, data, colors = ["#ff0000", "#00ff00", "#0000ff"]) 
       var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2; // we need the angle to see if the X position will be at the extreme right or extreme left
       posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); // multiply by 1 or -1 to put it on the right or on the left
       posC[0] *= 1.15
+      posB[1] += -(midangle > 1.98*Math.PI ? 1 : 0)*15
+      posC[1] += -(midangle > 1.98*Math.PI ? 1 : 0)*15
       return [posA, posB, posC];
     });
 
@@ -77,6 +79,8 @@ function drawPiechart(div_id, data, colors = ["#ff0000", "#00ff00", "#0000ff"]) 
       var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
       pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
       pos[0] *= 1.15
+      pos[1] += 5
+      pos[1] += -(midangle > 1.98*Math.PI ? 1 : 0)*15
       return "translate(" + pos + ")";
     })
     .style("text-anchor", function (d) {

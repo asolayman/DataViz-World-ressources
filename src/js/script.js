@@ -7,7 +7,12 @@ var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataV
 d3.dsv(';', computerCompositionLink).then(function (data) {
     console.log(data);
 
-    var finalDataOver = [];
+    var finalDataOver = [{
+        'name': 'Minéraux en faibles quantités',
+        'percentage': 0,
+        'weight': 0,
+        'info': ''
+    }];
     var finalDataSub = [];
     for (var i = 0; i < data.length; i++) {
         if (data[i]['Metal'] != "") {
@@ -23,6 +28,9 @@ d3.dsv(';', computerCompositionLink).then(function (data) {
                         'info': data[i]['Utilisation']
                     });
                 } else {
+                    finalDataOver[0]['percentage'] += percentage;
+                    finalDataOver[0]['weight'] += weight;
+                    
                     finalDataSub.push({
                         'name': data[i]['Metal'],
                         'percentage': percentage,
