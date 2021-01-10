@@ -1,189 +1,173 @@
-// Lien des données + carte
-var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/computer_composition.csv';
-var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/mineral_production.csv';
-var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/mineral_reserves.csv';
-var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/phone_composition.csv';
 
+
+
+////// COMPUTER COMPOSITION //////
 var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/computer_composition.csv';
 
+d3.dsv(';', computerCompositionLink).then(function (data) {
+    console.log(data);
 
-var mapLink = "https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/src/Carte_Du_Monde.json";
-var dataLink = "https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/src/data.csv";
-
-var metal = "Argent";
-
-var width = 1600;
-var height = 1160;
-
-var svg = d3
-  .select("body")
-  .append("svg")
-  .attr("width", width)
-  .attr("height", height);
-
-var g = svg.append("g");
-
-var projection = d3
-  .geoEquirectangular()
-  .scale(300)
-  .translate([width / 2, height / 2]);
-
-var path = d3.geoPath().projection(projection);
-
-var color = d3.scaleQuantize().range(d3.schemeGreens[9]);
-
-d3.dsv(",", dataLink).then(function (data) {
-  d3.json(mapLink).then(function (json) {
-    // On initialise le tableau de jours à vide pour tous les départements
-    for (var j = 0; j < json.features.length; j++) {
-      json.features[j].properties.value = {};
-    }
-
+    var finalData = {};
     for (var i = 0; i < data.length; i++) {
-      // Pays
-      var dataPays = data[i].Pays;
-      var dataValue = {};
-      for (var annee = 1975; annee < 2019; annee++) {
-        if (Number.isNaN(parseInt(data[i][annee]))) {
-          dataValue[annee] = 0;
-        } else {
-          dataValue[annee] = parseInt(data[i][annee]);
+        if (finalData[data[i]['Metal']] === undefined) {
+            let percentage = parseFloat(data[i]['Pourcent'].replace(',', '.'));
+            let weight = parseFloat(data[i]['Poids'].replace(',', '.'));
+            
+            if (!Number.isNaN(percentage) && !Number.isNaN(weight)) {
+                finalData[data[i]['Metal']] = {
+                    'percentage': percentage,
+                    'weight': weight,
+                    'info': data[i]['Utilisation']
+                }
+            }
         }
-      }
-
-      for (var j = 0; j < json.features.length; j++) {
-        var jsonPays = json.features[j].properties.name;
-        if (dataPays == jsonPays && data[i].Metal === metal) {
-          //On injecte la valeur du département dans le json
-
-          for (var annee = 1975; annee < 2019; annee++) {
-            if (json.features[j].properties.value[annee] === undefined)
-              json.features[j].properties.value[annee] = 0;
-            json.features[j].properties.value[annee] += parseInt(
-              dataValue[annee]
-            );
-          }
-
-          //Pas besoin de chercher plus loin
-          break;
-        }
-      }
     }
-
-    // On définit les bornes
-    color.domain([
-      d3.min(json.features, function (d) {
-        return Math.min(...Object.values(d.properties.value));
-      }),
-      d3.max(json.features, function (d) {
-        return Math.max(...Object.values(d.properties.value));
-      }),
-    ]);
-
-    // On ajoute la légende
-    svg
-      .append("g")
-      .attr("class", "legendQuant")
-      .attr("transform", "translate(15, 310)");
-    var legend = d3
-      .legendColor()
-      .labelFormat(d3.format("d"))
-      .title("Nombre de tonne de/d'"+metal+" produit :")
-      .scale(color);
-    svg.select(".legendQuant").call(legend);
-
-    function drawMap(dayDate) {
-      // Mise à jour de la carte
-      g.attr("class", "update")
-        .selectAll("path")
-        .style("fill", function (d) {
-          // On prend la valeur recuperee plus haut
-          var value = d.properties.value[dayDate];
-
-          if (value) {
-            return color(value);
-          } else {
-            // Si pas de valeur alors en gris
-            return "#adadad";
-          }
-        })
-        .on("mousemove", function (e, d) {
-          // Quand on bouge la souris, le pays s'assombri, et le toolTip change
-          d3.select(this).style("opacity", "0.5");
-          var mousePosition = d3.pointer(e);
-
-          d3.select(".toolTip")
-            .classed("hidden", false)
-            .style("left", mousePosition[0] + 15 + "px")
-            .style("top", mousePosition[1] - 35 + "px");
-          d3.select(".toolTipName").html(d.properties.name);
-          d3.select(".toolTipData").html(
-            "Tonne de/d'"+metal+" produit : " + d.properties.value[dayDate]
-          );
-        })
-        .on("mouseout", function (d) {
-          // Quand la souris quitte le département, on remet l'opacity du pays et on cache le toolTip
-          d3.select(this).style("opacity", "1");
-
-          d3.select(".toolTip").classed("hidden", true);
-        });
-
-      // Initialisation de la carte
-      g.selectAll("path")
-        .data(json.features)
-        .enter()
-        .append("path")
-        .attr("d", path)
-        .attr("class", "enter")
-        .style("stroke", "#ccc")
-        .style("stroke-width", "0.5")
-        .style("fill", function (d) {
-          // On prend la valeur recuperee plus haut
-          var value = d.properties.value[dayDate];
-
-          if (value) {
-            return color(value);
-          } else {
-            // Si pas de valeur alors en gris
-            return "#adadad";
-          }
-        })
-        .on("mousemove", function (e, d) {
-          // Quand on bouge la souris, le pays s'assombri, et le toolTip change
-          d3.select(this).style("opacity", "0.5");
-          var mousePosition = d3.pointer(e);
-
-          d3.select(".toolTip")
-            .classed("hidden", false)
-            .style("left", mousePosition[0] + 15 + "px")
-            .style("top", mousePosition[1] - 35 + "px");
-          d3.select(".toolTipName").html(d.properties.name);
-          d3.select(".toolTipData").html(
-              "Tonne de/d'"+metal+" produit : " + d.properties.value[dayDate]
-          );
-        })
-        .on("mouseout", function (d) {
-          // Quand la souris quitte le département, on remet l'opacity du pays et on cache le toolTip
-          d3.select(this).style("opacity", "1");
-
-          d3.select(".toolTip").classed("hidden", true);
-        });
-    }
-
-    // Callback sur le slider
-    d3.select("#slider").on("input", function () {
-      updateViz(+this.value);
-    });
-
-    // Met à jour la visualisation
-    function updateViz(value) {
-      let date = 1975;
-      date = date + value;
-      d3.select("#day").html(date);
-      drawMap(date);
-    }
-
-    // On initialise avec un jour
-    updateViz(0);
-  });
+    
+    console.log(finalData);
 });
+
+
+
+////// PHONE COMPOSITION //////
+var phoneCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/phone_composition.csv';
+
+d3.dsv(';', phoneCompositionLink).then(function (data) {
+    console.log(data);
+
+    var finalData = {};
+    for (var i = 0; i < data.length; i++) {
+        if (finalData[data[i]['Metal']] === undefined) {
+            let percentage = parseFloat(data[i]['Pourcent'].replace(',', '.'));
+            let weight = parseFloat(data[i]['Poids'].replace(',', '.'));
+            
+            if (!Number.isNaN(percentage) && !Number.isNaN(weight)) {
+                finalData[data[i]['Metal']] = {
+                    'percentage': percentage,
+                    'weight': weight,
+                    'info': ""
+                }
+            }
+        }
+    }
+    
+    console.log(finalData);
+});
+
+
+
+////// WORLD PRODUCTION & RESERVES //////
+var mineralProductionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/mineral_production.csv';
+var mineralReservesLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/mineral_reserves.csv';
+var worldMapLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/world_map.json';
+
+d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
+    d3.dsv(';', mineralReservesLink).then(function (dataReverves) {
+        d3.json(worldMapLink).then(function (jsonMap) {
+            console.log(dataProduction);
+            console.log(dataReverves);
+            console.log(jsonMap);
+
+            var finalMapData = jsonMap;
+            var finalCurveData = {};
+            
+            for (var j = 0; j < finalMapData.features.length; j++) {
+                finalMapData.features[j].properties.metals = {};
+            }
+            
+            for (var i = 0; i < dataProduction.length; i++) {
+                let dataPays = dataProduction[i].Pays;
+                let dataMetal = dataProduction[i].Metal;
+                
+                if (dataMetal != "") {
+                    if (finalCurveData[dataMetal] === undefined) {
+                        finalCurveData[dataMetal] = {};
+                        
+                        for (var k = 1975; k <= 2018; k++) {
+                            finalCurveData[dataMetal][k.toString()] = {'value': 0, 'cumul': 0};
+                        }
+                    }
+                    
+                    for (var k = 1975; k <= 2018; k++) {
+                        if (dataProduction[i][k.toString()] != "") {
+                            finalCurveData[dataMetal][k.toString()]['value'] += parseFloat(dataProduction[i][k.toString()].replace(',', '.'));
+                            
+                            for (var n = k; n <= 2018; n++) {
+                                finalCurveData[dataMetal][n.toString()]['cumul'] += parseFloat(dataProduction[i][k.toString()].replace(',', '.'));
+                            }
+                        }
+                    }
+                }
+                
+                for (var j = 0; j < finalMapData.features.length; j++) {
+                    let jsonPays = finalMapData.features[j].properties.name;
+                    
+                    if (dataPays == jsonPays) {
+                        if (finalMapData.features[j].properties.metals[dataMetal] === undefined) {
+                            finalMapData.features[j].properties.metals[dataMetal] = {}
+                            
+                            for (var k = 1975; k <= 2018; k++) {
+                                finalMapData.features[j].properties.metals[dataMetal][k.toString()] = {'value': 0, 'cumul': 0};
+                            }
+                        }
+                        
+                        for (var k = 1975; k <= 2018; k++) {
+                            if (dataProduction[i][k.toString()] != "") {
+                                finalMapData.features[j].properties.metals[dataMetal][k.toString()]['value'] += parseFloat(dataProduction[i][k.toString()].replace(',', '.'));
+                                
+                                for (var n = k; n <= 2018; n++) {
+                                    finalMapData.features[j].properties.metals[dataMetal][n.toString()]['cumul'] += parseFloat(dataProduction[i][k.toString()].replace(',', '.'));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            for (var i = 0; i < dataReverves.length; i++) {
+                // let dataValue = dataProduction[i].Capacit�;
+                // let dataMetal = dataProduction[i].Metal;
+                
+                // if (dataMetal != "") {
+                    // finalCurveData[dataMetal]['reserve'] = dataValue;
+                // }
+            }
+            
+            console.log(finalMapData);
+            console.log(finalCurveData);
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
