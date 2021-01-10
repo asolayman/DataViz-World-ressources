@@ -5,7 +5,12 @@ function entries(map) {
   return entries;
 }
 
-function drawPiechart(div, data={ a: 15, b: 15, c: 30, d: 30 }, colors=["#98abc5", "#8a89a6", "#7b6888", "#6b486b"]) {
+function drawPiechart(
+  div,
+  data = { a: 15, b: 15, c: 30, d: 30 },
+  colors = ["#98abc5", "#8a89a6", "#7b6888", "#6b486b"],
+  info = { a: "element a", b: "element b", c: "element c", d: "element d" }
+) {
   // set the dimensions and margins of the graph
   var width = 450;
   height = 450;
@@ -24,9 +29,7 @@ function drawPiechart(div, data={ a: 15, b: 15, c: 30, d: 30 }, colors=["#98abc5
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
   // set the color scale
-  var color = d3
-    .scaleOrdinal()
-    .range(colors);
+  var color = d3.scaleOrdinal().range(colors);
 
   // Compute the position of each group on the pie:
   var pie = d3.pie().value((d) => d.value);
@@ -68,7 +71,7 @@ function drawPiechart(div, data={ a: 15, b: 15, c: 30, d: 30 }, colors=["#98abc5
         .style("top", mousePosition[1] - 35 + "px");
 
       d3.select(".toolTipName").html(d.data.key);
-      d3.select(".toolTipData").html(d.data.value + "%");
+      d3.select(".toolTipData").html(info[d.data.key]);
     })
     .on("mouseout", function (d) {
       // Quand la souris quitte le département, on remet l'opacity du département et on cache le toolTip
@@ -78,5 +81,5 @@ function drawPiechart(div, data={ a: 15, b: 15, c: 30, d: 30 }, colors=["#98abc5
     });
 }
 
-drawPiechart("#piechart1")
-drawPiechart("#piechart2", { a: 50, b: 50}, ["#7b6888", "#6b486b"])
+drawPiechart("#piechart1");
+drawPiechart("#piechart2", { a: 50, b: 50 }, ["#7b6888", "#6b486b"], {a: "truc a", b: "truc b"});
