@@ -42,7 +42,7 @@ d3.dsv(",", dataLink).then(function (data) {
           dataValue[annee] = parseInt(data[i][annee]);
         }
       }
-      // Recherche du département dans le GeoJSON
+
       for (var j = 0; j < json.features.length; j++) {
         var jsonPays = json.features[j].properties.name;
         if (dataPays == jsonPays && data[i].Metal === metal) {
@@ -62,7 +62,7 @@ d3.dsv(",", dataLink).then(function (data) {
       }
     }
 
-    // On définit les bornes avec comme min, le minimum sur tous les jours et tous les départements (resp. max)
+    // On définit les bornes
     color.domain([
       d3.min(json.features, function (d) {
         return Math.min(...Object.values(d.properties.value));
@@ -80,7 +80,7 @@ d3.dsv(",", dataLink).then(function (data) {
     var legend = d3
       .legendColor()
       .labelFormat(d3.format("d"))
-      .title("Nombre de tonne d'or produit :")
+      .title("Nombre de tonne de/d'"+metal+" produit :")
       .scale(color);
     svg.select(".legendQuant").call(legend);
 
@@ -100,7 +100,7 @@ d3.dsv(",", dataLink).then(function (data) {
           }
         })
         .on("mousemove", function (e, d) {
-          // Quand on bouge la souris, le département s'assombri, et le toolTip change
+          // Quand on bouge la souris, le pays s'assombri, et le toolTip change
           d3.select(this).style("opacity", "0.5");
           var mousePosition = d3.pointer(e);
 
@@ -110,11 +110,11 @@ d3.dsv(",", dataLink).then(function (data) {
             .style("top", mousePosition[1] - 35 + "px");
           d3.select(".toolTipName").html(d.properties.name);
           d3.select(".toolTipData").html(
-            "Tonne d'or produit : " + d.properties.value[dayDate]
+            "Tonne de/d'"+metal+" produit : " + d.properties.value[dayDate]
           );
         })
         .on("mouseout", function (d) {
-          // Quand la souris quitte le département, on remet l'opacity du département et on cache le toolTip
+          // Quand la souris quitte le département, on remet l'opacity du pays et on cache le toolTip
           d3.select(this).style("opacity", "1");
 
           d3.select(".toolTip").classed("hidden", true);
@@ -141,7 +141,7 @@ d3.dsv(",", dataLink).then(function (data) {
           }
         })
         .on("mousemove", function (e, d) {
-          // Quand on bouge la souris, le département s'assombri, et le toolTip change
+          // Quand on bouge la souris, le pays s'assombri, et le toolTip change
           d3.select(this).style("opacity", "0.5");
           var mousePosition = d3.pointer(e);
 
@@ -151,11 +151,11 @@ d3.dsv(",", dataLink).then(function (data) {
             .style("top", mousePosition[1] - 35 + "px");
           d3.select(".toolTipName").html(d.properties.name);
           d3.select(".toolTipData").html(
-            "Tonne d'or produit : " + d.properties.value[dayDate]
+              "Tonne de/d'"+metal+" produit : " + d.properties.value[dayDate]
           );
         })
         .on("mouseout", function (d) {
-          // Quand la souris quitte le département, on remet l'opacity du département et on cache le toolTip
+          // Quand la souris quitte le département, on remet l'opacity du pays et on cache le toolTip
           d3.select(this).style("opacity", "1");
 
           d3.select(".toolTip").classed("hidden", true);
