@@ -1,12 +1,12 @@
 Metal;Pourcent;Poids;Utilisation
-Néodyme (Terre rare);3,0104;2,1;Axes de moteurs de disques durs et optiques (37%), bobines acoustiques (33%), haut parleurs (30%)
-Cobalt;93,1792;65;Batteries Lithium-ion
 Tantale;2,437;1,7;Capacités sur la carte mère (90%), autres circuits imprimés (10%)
-Yttrium, Gallium, Autres terres rares;0,0058;0,00408;Rétro éclairage LED
-Praséodyme (Terre rare);0,3871;0,27;Bobines acoustiques (53%), haut parleurs (47%)
+Cobalt;93,1792;65;Batteries Lithium-ion
+Néodyme (Terre rare);3,0104;2,1;Axes de moteurs de disques durs et optiques (37%), bobines acoustiques (33%), haut parleurs (30%)
 Platine;0,0057;0,004;Plateaux de disques durs
 Argent;0,6308;0,44;Carte mère (57%), autres circuits imprimés (43%)
-Palladium;0,0573;0,04;Carte mère (64%), autres circuits imprimés (36%)
+Praséodyme (Terre rare);0,3871;0,27;Bobines acoustiques (53%), haut parleurs (47%)
 Or;0,1434;0,1;Carte mère (54%), autres circuits imprimés (46%)
 Dysprosium (Terre rare);0,086;0,06;Bobines acoustiques
 Indium;0,0573;0,04;Affichage & rétro éclairage
+Palladium;0,0573;0,04;Carte mère (64%), autres circuits imprimés (36%)
+Yttrium, Gallium, Autres terres rares;0,0058;0,00408;Rétro éclairage LED

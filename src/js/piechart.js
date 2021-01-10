@@ -1,7 +1,7 @@
 
 
 
-function drawPiechart(div_id, data, colors = ["#ff0000", "#00ff00", "#0000ff"]) {
+function drawPiechart(div_id, data, colors = ["#ff0000", "#00ff00", "#0000ff"]) {   
   // set the dimensions and margins of the graph
   var width = 1100;
   var height = 450;
@@ -23,7 +23,7 @@ function drawPiechart(div_id, data, colors = ["#ff0000", "#00ff00", "#0000ff"]) 
   var color = d3.scaleOrdinal().range(colors);
 
   // Compute the position of each group on the pie:
-  var pie = d3.pie().value((d) => d['percentage']);
+  var pie = d3.pie().value((d) => d['percentage']).sort(null);
   var data_ready = pie(data);
 
   var arcGenerator = d3.arc().innerRadius(0).outerRadius(radius);
