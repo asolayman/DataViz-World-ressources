@@ -11,9 +11,9 @@ A few motivating and useful examples of how your product can be used. Spice this
 
 ##  Contributors
 
-Solayman AYOUBI – p1608583 – solayman.ayoubi@etu.univ-lyon1.fr
-Alexandre DEVILLERS– p1608591 – alexandre.devillers@etu.univ-lyon1.fr
-Antoine DULHOSTE – p1606751 – antoine.dulhoste@etu.univ-lyon1.fr
-Imran KRIMI – p1610419 – imran.krimi@etu.univ-lyon1.fr
+Solayman AYOUBI – p1608583 – solayman.ayoubi@etu.univ-lyon1.fr  
+Alexandre DEVILLERS– p1608591 – alexandre.devillers@etu.univ-lyon1.fr  
+Antoine DULHOSTE – p1606751 – antoine.dulhoste@etu.univ-lyon1.fr  
+Imran KRIMI – p1610419 – imran.krimi@etu.univ-lyon1.fr  
 
-Distributed under the MIT license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See ``LICENSE`` for more information.  
