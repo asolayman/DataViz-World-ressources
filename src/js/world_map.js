@@ -1,5 +1,5 @@
 // Lien des données + carte
-var mapLink = "world-countries-no-antartica.json";
+var mapLink = "https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/src/Carte_Du_Monde.json";
 var dataLink = "data.csv";
 
 var metal = "Argent";
