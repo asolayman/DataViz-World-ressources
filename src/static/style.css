@@ -117,3 +117,7 @@ text {
   font-size: 12px;
 }
 
+.legendQuant text.label {
+    fill: "#fff";
+}
+
