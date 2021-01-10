@@ -53,13 +53,12 @@
     <div class="spacing-div">
         <div class="inner-div center-div">
             <i class="fas fa-arrow-circle-down fa-5x" onclick='var element = document.getElementById("box");
-            element.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});''></i>
+            element.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});'></i>
         </div>
-        <div id='box'></div>
-        <br>
+        <div id="box" style="position: absolute; bottom: 0px; transform: translateY(-84px);"></div>
     </div>
     
-    <hr style="margin-top: 0;">
+    <hr style="margin-top: 0; width: 70%;">
     <div class="content-div">
         <div class="inner-div center-div">
             <h2>Extraction des réserves naturelles de minéraux</h2>
@@ -86,16 +85,19 @@
             Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
             Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </div>
-        <div class="inner-div center-div">
-
-            <h1>Composants d'un PC</h1>
-            <div id="piechart1">
-            </div>
+        <div class="inner-div center-div" style="border: 1px solid #adadad40;">
+            <h1>Composants d'un ordinateur</h1>
+            <div id="chartPcOver" style="display: inline-block"></div>
+            <div id="legendPcOver" style="display: inline-block"></div>
+            <hr style="width: 70%;">
+            <h3>Minéraux en faibles quantités</h3>
+            <div id="chartPcSub" style="display: inline-block"></div>
+            <div id="legendPcSub" style="display: inline-block"></div>
         </div>
         <div class="inner-div center-div">
 
             <h1>Composants d'un Smartphone</h1>
-            <div id="piechart2">
+            <div id="piechart3">
             </div>
         </div>
     </div>
