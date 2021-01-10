@@ -7,23 +7,37 @@ var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataV
 d3.dsv(';', computerCompositionLink).then(function (data) {
     console.log(data);
 
-    var finalData = {};
+    var finalDataOver = [];
+    var finalDataSub = [];
     for (var i = 0; i < data.length; i++) {
-        if (finalData[data[i]['Metal']] === undefined) {
+        if (data[i]['Metal'] != "") {
             let percentage = parseFloat(data[i]['Pourcent'].replace(',', '.'));
             let weight = parseFloat(data[i]['Poids'].replace(',', '.'));
             
             if (!Number.isNaN(percentage) && !Number.isNaN(weight)) {
-                finalData[data[i]['Metal']] = {
-                    'percentage': percentage,
-                    'weight': weight,
-                    'info': data[i]['Utilisation']
+                if (percentage >= 1) {
+                    finalDataOver.push({
+                        'name': data[i]['Metal'],
+                        'percentage': percentage,
+                        'weight': weight,
+                        'info': data[i]['Utilisation']
+                    });
+                } else {
+                    finalDataSub.push({
+                        'name': data[i]['Metal'],
+                        'percentage': percentage,
+                        'weight': weight,
+                        'info': data[i]['Utilisation']
+                    });
                 }
             }
         }
     }
     
-    console.log(finalData);
+    console.log(finalDataOver);
+    
+    drawPiechart("#piechart1", finalDataOver);
+    drawPiechart("#piechart2", finalDataSub);
 });
 
 
@@ -42,6 +56,7 @@ d3.dsv(';', phoneCompositionLink).then(function (data) {
             
             if (!Number.isNaN(percentage) && !Number.isNaN(weight)) {
                 finalData[data[i]['Metal']] = {
+                    'name': data[i]['Metal'],
                     'percentage': percentage,
                     'weight': weight,
                     'info': ""
@@ -80,7 +95,7 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
                 
                 if (dataMetal != "") {
                     if (finalCurveData[dataMetal] === undefined) {
-                        finalCurveData[dataMetal] = {};
+                        finalCurveData[dataMetal] = {'reserve': undefined};
                         
                         for (var k = 1975; k <= 2018; k++) {
                             finalCurveData[dataMetal][k.toString()] = {'value': 0, 'cumul': 0};
@@ -124,12 +139,12 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
             }
             
             for (var i = 0; i < dataReverves.length; i++) {
-                // let dataValue = dataProduction[i].Capacit�;
-                // let dataMetal = dataProduction[i].Metal;
+                let dataValue = dataReverves[i].Capacité;
+                let dataMetal = dataReverves[i].Metal;
                 
-                // if (dataMetal != "") {
-                    // finalCurveData[dataMetal]['reserve'] = dataValue;
-                // }
+                if (dataMetal != "" && dataValue != "") {
+                    finalCurveData[dataMetal]['reserve'] = parseFloat(dataValue.replace(',', '.'));
+                }
             }
             
             console.log(finalMapData);
@@ -137,37 +152,5 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
         });
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
