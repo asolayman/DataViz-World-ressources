@@ -5,7 +5,7 @@
 var computerCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/computer_composition.csv';
 
 d3.dsv(';', computerCompositionLink).then(function (data) {
-    console.log(data);
+    // console.log(data);
 
     var finalDataOver = [{
         'name': 'Minéraux en faibles quantités',
@@ -42,7 +42,8 @@ d3.dsv(';', computerCompositionLink).then(function (data) {
         }
     }
     
-    console.log(finalDataOver);
+    // console.log(finalDataOver);
+    // console.log(finalDataSub);
     
     drawPiechart('#chartPcOver', '#legendPcOver', finalDataOver);
     drawPiechart('#chartPcSub', '#legendPcSub', finalDataSub);
@@ -54,17 +55,33 @@ d3.dsv(';', computerCompositionLink).then(function (data) {
 var phoneCompositionLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/phone_composition.csv';
 
 d3.dsv(';', phoneCompositionLink).then(function (data) {
-    console.log(data);
+    // console.log(data);
 
-    var finalData = [];
+    var finalDataOver = [{
+        'name': 'Minéraux en faibles quantités',
+        'percentage': 0,
+        'weight': 0,
+        'info': ''
+    }];
+    var finalDataSub = [];
     for (var i = 0; i < data.length; i++) {
         if (data[i]['Metal'] != "") {
             let percentage = parseFloat(data[i]['Pourcent'].replace(',', '.'));
             let weight = parseFloat(data[i]['Poids'].replace(',', '.'));
             
             if (!Number.isNaN(percentage) && !Number.isNaN(weight)) {
-                if (percentage < 1) {
-                    finalData.push({
+                if (percentage >= 1) {
+                    finalDataOver.push({
+                        'name': data[i]['Metal'],
+                        'percentage': percentage,
+                        'weight': weight,
+                        'info': data[i]['Utilisation']
+                    });
+                } else {
+                    finalDataOver[0]['percentage'] += percentage;
+                    finalDataOver[0]['weight'] += weight;
+                    
+                    finalDataSub.push({
                         'name': data[i]['Metal'],
                         'percentage': percentage,
                         'weight': weight,
@@ -75,9 +92,11 @@ d3.dsv(';', phoneCompositionLink).then(function (data) {
         }
     }
     
-    console.log(finalData);
+    // console.log(finalDataOver);
+    // console.log(finalDataSub);
     
-    // drawPiechart("#piechart3", finalData);
+    drawPiechart('#chartPhoneOver', '#legendPhoneOver', finalDataOver);
+    drawPiechart('#chartPhoneSub', '#legendPhoneSub', finalDataSub);
 });
 
 
@@ -146,6 +165,8 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
                                 }
                             }
                         }
+                        
+                        break;
                     }
                 }
             }
@@ -161,6 +182,49 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
             
             console.log(finalMapData);
             console.log(finalCurveData);
+            
+
+            function doMap() {
+                let metal = d3.select('#mapSelect').node().value;
+                let cumul = d3.select('#mapCheck').node().checked;
+                let year = d3.select('#mapSlider').node().value;
+                
+                updateMap = drawMap('#map', '#leg', metal, cumul, finalMapData);
+                d3.select('#mapSlider').on('input', function () {
+                    updateMap(+this.value);
+                });
+                updateMap(+year);
+            }
+            
+            doMap();
+            
+            window.onresize = () => doMap();
+            
+            d3.select('#mapSelect').on('input', function () {
+                doMap();
+            });
+            
+            d3.select('#mapCheck').on('input', function () {
+                doMap();
+            });
+            
+            /*
+            // Callback sur le slider
+            d3.select("#slider").on("input", function () {
+              updateViz(+this.value);
+            });
+
+            // Met à jour la visualisation
+            function updateViz(value) {
+              let date = 1975;
+              date = date + value;
+              d3.select("#day").html(date);
+              drawMap(date);
+            }
+
+            // On initialise avec un jour
+            updateViz(0);
+            */
         });
     });
 });

@@ -7,9 +7,7 @@ function drawPiechart(chartId, legendId, data) {
     var margin = 10;
     var radius = size/2.;
 
-    var color = d3.scaleOrdinal().range(["#9A266D","#9A268D","#86269A","#66269A","#46269A","#26279A","#26479A",
-        "#26679A","#26879A","#269A8C","#269A6C","#269A4D","#269A2F","#3C9A26","#5B9A26","#7A9A26","#989A26",
-        "#9A7D26","#9A5E26","#9A3F26","#9A262B"]);
+    var color = d3.scaleOrdinal().range(d3.schemeTableau10);
 
     var dataPie = d3.pie().value((d) => d['percentage'])(data);
     var arcGenerator = d3.arc().innerRadius(0).outerRadius(radius);
@@ -68,14 +66,14 @@ function drawPiechart(chartId, legendId, data) {
         d3.select(this).style('opacity', '1');
         d3.select('.toolTip')
             .classed('hidden', false)
-            .style('left', (mousePosition[0] + 15) + "px")
-            .style('top', (mousePosition[1]) + "px");
+            .style('left', (mousePosition[0] + 20) + "px")
+            .style('top', (mousePosition[1] + 20) + "px");
         d3.select('.toolTipName').html(d.data['name']);
-        d3.select('.toolTipData').html(d.data['info']);
+        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g<br>' + d.data['info']);
         
         
         squares.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
-        texts.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
+        texts.style('opacity', function (textsData) { return textsData.data.name === d.data.name ? 1. : 0.25;})
     });
     
     slices.on('mouseout', function (d) {
@@ -94,15 +92,24 @@ function drawPiechart(chartId, legendId, data) {
         
         squares.style('opacity', '0.25');
         d3.select(this).style('opacity', '1');
+        d3.select('.toolTip')
+            .classed('hidden', false)
+            .style('left', (mousePosition[0] + 20) + "px")
+            .style('top', (mousePosition[1] + 20) + "px");
+        d3.select('.toolTipName').html(d.data['name']);
+        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g<br>' + d.data['info']);
         
-        slices.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
-        texts.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
+        slices.style('opacity', function (slicesData) { return slicesData.data.name === d.data.name ? 1. : 0.25;})
+        texts.style('opacity', function (textsData) { return textsData.data.name === d.data.name ? 1. : 0.25;})
     });
     
     squares.on('mouseout', function (d) {
         slices.style('opacity', '1');
         squares.style('opacity', '1');
         texts.style('opacity', '1');
+        
+        d3.select('.toolTip')
+            .classed('hidden', true);
     });
     
     
@@ -112,8 +119,14 @@ function drawPiechart(chartId, legendId, data) {
         
         texts.style('opacity', '0.25');
         d3.select(this).style('opacity', '1');
+        d3.select('.toolTip')
+            .classed('hidden', false)
+            .style('left', (mousePosition[0] + 20) + "px")
+            .style('top', (mousePosition[1] + 20) + "px");
+        d3.select('.toolTipName').html(d.data['name']);
+        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g<br>' + d.data['info']);
         
-        slices.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
+        slices.style('opacity', function (slicesData) { return slicesData.data.name === d.data.name ? 1. : 0.25;})
         squares.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
     });
     
@@ -121,6 +134,9 @@ function drawPiechart(chartId, legendId, data) {
         slices.style('opacity', '1');
         squares.style('opacity', '1');
         texts.style('opacity', '1');
+        
+        d3.select('.toolTip')
+            .classed('hidden', true);
     });
 }
 
