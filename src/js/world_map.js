@@ -3,8 +3,8 @@
 
 function drawMap(chartId, legendId, metal, cumul, data) {
     d3.select(chartId).html('');
-    var width = d3.select(chartId).node().parentNode.clientWidth - 30;
-    var height = width*(400/800.);
+    var width = Math.min(d3.select(chartId).node().parentNode.clientWidth, 800) - 30;
+    var height = width*(320/800.);
 
     var svg = d3
       .select(chartId)
@@ -17,7 +17,7 @@ function drawMap(chartId, legendId, metal, cumul, data) {
     var projection = d3
       .geoEquirectangular()
       .scale(width*(128/800.))
-      .translate([width/2, height/2]);
+      .translate([width/2, height/1.675]);
 
     var path = d3.geoPath().projection(projection);
 
@@ -97,12 +97,13 @@ function drawMap(chartId, legendId, metal, cumul, data) {
                     .style('top', (mousePosition[1] + 20) + 'px');
                 d3.select('.toolTipName').html(d.properties.name);
                 if (value) {
-                d3.select('.toolTipData').html(metal + ' produit : ' + value + ' tonnes');
-            }
+                    d3.select('.toolTipData').html(metal + ' produit : ' + value + ' tonnes');
+                }
             })
             .on('mouseout', function (d) {
                 d3.select(this).style('opacity', '1');
                 d3.select('.toolTip').classed('hidden', true);
+                d3.select('.toolTipData').html('');
             });
 
 
@@ -131,32 +132,33 @@ function drawMap(chartId, legendId, metal, cumul, data) {
                     return '#ADADAD';
                 }
             })
-        .on('mousemove', function (e, d) {
-            var mousePosition = d3.pointer(e, g);
-            
-            var value = null;
-            if (d.properties.metals[metal] != undefined && d.properties.metals[metal][year.toString()] != undefined) {
-                if (cumul) {
-                    value = d.properties.metals[metal][year.toString()]['cumul'];
-                } else {
-                    value = d.properties.metals[metal][year.toString()]['value'];
+            .on('mousemove', function (e, d) {
+                var mousePosition = d3.pointer(e, g);
+                
+                var value = null;
+                if (d.properties.metals[metal] != undefined && d.properties.metals[metal][year.toString()] != undefined) {
+                    if (cumul) {
+                        value = d.properties.metals[metal][year.toString()]['cumul'];
+                    } else {
+                        value = d.properties.metals[metal][year.toString()]['value'];
+                    }
                 }
-            }
-            
-            d3.select(this).style('opacity', '0.5');
-            d3.select('.toolTip')
-                .classed('hidden', false)
-                .style('left', (mousePosition[0] + 20) + 'px')
-                .style('top', (mousePosition[1] + 20) + 'px');
-            d3.select('.toolTipName').html(d.properties.name);
-            if (value) {
-                d3.select('.toolTipData').html(metal + ' produit : ' + value + ' tonnes');
-            }
-        })
-        .on('mouseout', function (d) {
-            d3.select(this).style('opacity', '1');
-            d3.select('.toolTip').classed('hidden', true);
-        });
+                
+                d3.select(this).style('opacity', '0.5');
+                d3.select('.toolTip')
+                    .classed('hidden', false)
+                    .style('left', (mousePosition[0] + 20) + 'px')
+                    .style('top', (mousePosition[1] + 20) + 'px');
+                d3.select('.toolTipName').html(d.properties.name);
+                if (value) {
+                    d3.select('.toolTipData').html(metal + ' produit : ' + value + ' tonnes');
+                }
+            })
+            .on('mouseout', function (d) {
+                d3.select(this).style('opacity', '1');
+                d3.select('.toolTip').classed('hidden', true);
+                d3.select('.toolTipData').html('');
+            });
     }
 
     return updateMap;

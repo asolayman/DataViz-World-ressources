@@ -129,7 +129,7 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
                         finalCurveData[dataMetal] = {'reserve': undefined};
                         
                         for (var k = 1975; k <= 2018; k++) {
-                            finalCurveData[dataMetal][k.toString()] = {'value': 0, 'cumul': 0};
+                            finalCurveData[dataMetal][k.toString()] = {'year': k.toString(), 'value': 0, 'cumul': 0};
                         }
                     }
                     
@@ -183,48 +183,37 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
             console.log(finalMapData);
             console.log(finalCurveData);
             
+            
 
-            function doMap() {
+            function doThings() {
                 let metal = d3.select('#mapSelect').node().value;
                 let cumul = d3.select('#mapCheck').node().checked;
+                let reserve = d3.select('#curveCheck').node().checked;
                 let year = d3.select('#mapSlider').node().value;
                 
-                updateMap = drawMap('#map', '#leg', metal, cumul, finalMapData);
+                updateMap = drawMap('#map', '', metal, cumul, finalMapData);
                 d3.select('#mapSlider').on('input', function () {
                     updateMap(+this.value);
                 });
                 updateMap(+year);
+                drawLinechart("#leg", '', metal, cumul, reserve, finalCurveData);
             }
             
-            doMap();
+            doThings();
             
-            window.onresize = () => doMap();
+            window.onresize = () => doThings();
             
             d3.select('#mapSelect').on('input', function () {
-                doMap();
+                doThings();
             });
             
             d3.select('#mapCheck').on('input', function () {
-                doMap();
+                doThings();
             });
             
-            /*
-            // Callback sur le slider
-            d3.select("#slider").on("input", function () {
-              updateViz(+this.value);
+            d3.select('#curveCheck').on('input', function () {
+                doThings();
             });
-
-            // Met à jour la visualisation
-            function updateViz(value) {
-              let date = 1975;
-              date = date + value;
-              d3.select("#day").html(date);
-              drawMap(date);
-            }
-
-            // On initialise avec un jour
-            updateViz(0);
-            */
         });
     });
 });

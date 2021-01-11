@@ -115,51 +115,61 @@
         
         
         <div class="inner-div center-div" style="border: 1px solid #adadad40;">
-            <form style="width: 50%">
-                <div class="form-group">
-                    <label for="mapSelect">Example select</label>
-                    <select class="form-control" id="mapSelect">
-                        <option>Cobalt</option>
-                        <option>Terre rare</option>
-                        <option>Tantale</option>
-                        <option>Argent</option>
-                        <option>Or</option>
-                        <option>Indium</option>
-                        <option>Groupe du platine</option>
-                        <option>Gallium</option>
-                        <option>Aluminium</option>
-                        <option>Arsenic</option>
-                        <option>Chrome</option>
-                        <option>Cuivre</option>
-                        <option>Fer</option>
-                        <option>Lithium</option>
-                        <option>Magnésium</option>
-                        <option>Manganèse</option>
-                        <option>Molybdène</option>
-                        <option>Nickel</option>
-                        <option>Phosphore</option>
-                        <option>Plomb</option>
-                        <option>Silicium</option>
-                        <option>Titane</option>
-                        <option>Vanadium</option>
-                        <option>Tungstène</option>
-                        <option>Zinc</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="mapSlider">Example Range input</label>
-                    <input type="range" value="1975" min="1975" max="2018" step="1" class="form-control-range" id="mapSlider">
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="mapCheck">
-                    <label class="form-check-label" for="mapCheck">
-                        Default checkbox
-                    </label>
-                </div>
-            </form>
-        
             <h1>Carte</h1>
+            
+            <div style="padding-top: 5px; width: 50%; display: inline-block;">
+                <form style="padding-top: 5px;">
+                    <div class="form-group">
+                        <label for="mapSelect">Métal</label>
+                        <select class="form-control" id="mapSelect">
+                            <option>Cobalt</option>
+                            <option>Terre rare</option>
+                            <option>Tantale</option>
+                            <option>Argent</option>
+                            <option>Or</option>
+                            <option>Indium</option>
+                            <option>Groupe du platine</option>
+                            <option>Gallium</option>
+                            <option>Aluminium</option>
+                            <option>Arsenic</option>
+                            <option>Chrome</option>
+                            <option>Cuivre</option>
+                            <option>Fer</option>
+                            <option>Lithium</option>
+                            <option>Magnésium</option>
+                            <option>Manganèse</option>
+                            <option>Molybdène</option>
+                            <option>Nickel</option>
+                            <option>Phosphore</option>
+                            <option>Plomb</option>
+                            <option>Silicium</option>
+                            <option>Titane</option>
+                            <option>Vanadium</option>
+                            <option>Tungstène</option>
+                            <option>Zinc</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapSlider">Année</label>
+                        <input type="range" value="1975" min="1975" max="2018" step="1" class="form-control-range" id="mapSlider">
+                    </div>
+                    <div class="form-check" style="display: inline-block; margin-right: 15px;">
+                        <input class="form-check-input" type="checkbox" value="" id="mapCheck">
+                        <label class="form-check-label" for="mapCheck">
+                            Cumul
+                        </label>
+                    </div>
+                    <div class="form-check" style="display: inline-block; margin-left: 15px;">
+                        <input class="form-check-input" type="checkbox" value="" id="curveCheck">
+                        <label class="form-check-label" for="curveCheck">
+                            Reserves
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <hr style="width: 70%;">
             <div id="map" style="display: inline-block"></div>
+            <hr style="width: 70%;">
             <div id="leg" style="display: inline-block"></div>
         </div>
     </div>
@@ -175,5 +185,6 @@
   </body>
   <script src="js/piechart.js"></script>
   <script src="js/world_map.js"></script>
+  <script src="js/linechart.js"></script>
   <script src="js/script.js"></script>
 </html>
