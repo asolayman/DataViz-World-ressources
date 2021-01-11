@@ -1,7 +1,7 @@
 
 
 
-function drawMap(chartId, legendId, metal, cumul, data) {
+function drawMap(chartId, metal, cumul, data) {
     d3.select(chartId).html('');
     var width = Math.min(d3.select(chartId).node().parentNode.clientWidth, 800) - 30;
     var height = width*(320/800.);
@@ -21,7 +21,7 @@ function drawMap(chartId, legendId, metal, cumul, data) {
 
     var path = d3.geoPath().projection(projection);
 
-    var color = d3.scaleQuantize().range(d3.schemeGreens[9]);
+    var color = d3.scaleSequential(d3.interpolateBlues);
 
     let minBound = null;
     let maxBound = null;
@@ -48,16 +48,41 @@ function drawMap(chartId, legendId, metal, cumul, data) {
     color.domain([minBound, maxBound]);
     
     // On ajoute la légende
-    // svg
-      // .append("g")
-      // .attr("class", "legendQuant")
-      // .attr("transform", "translate(15, 310)");
-    // var legend = d3
-      // .legendColor()
-      // .labelFormat(d3.format("d"))
-      // .title("Nombre de tonne de/d'"+metal+" produit :")
-      // .scale(color);
-    // svg.select(".legendQuant").call(legend);
+    var defs = svg.append("defs");
+
+    var linearGradient = defs.append("linearGradient")
+        .attr("id", "linear-gradient");
+        
+    linearGradient
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "0%")
+        .attr("y2", "100%");
+        
+    linearGradient.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", color(maxBound));
+
+    linearGradient.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", color(minBound));
+        
+    svg.append("rect")
+        .attr("width", 15)
+        .attr("x", 2)
+        .attr("y", height/2.)
+        .attr("height", height/2.)
+        .style("fill", "url(#linear-gradient)")
+        .style('stroke', '#ccc')
+        .style('stroke-width', '0.5');
+    svg.append('text')
+        .attr("y", 12+height/2.)
+        .attr("x", 20)
+        .text(maxBound);
+    svg.append('text')
+        .attr("y", -2+height)
+        .attr("x", 20)
+        .text(minBound);
 
     function updateMap(year) {
         g.attr('class', 'update')
@@ -90,7 +115,8 @@ function drawMap(chartId, legendId, metal, cumul, data) {
                     }
                 }
                 
-                d3.select(this).style('opacity', '0.5');
+                g.selectAll('path').style('opacity', '0.25');
+                d3.select(this).style('opacity', '1');
                 d3.select('.toolTip')
                     .classed('hidden', false)
                     .style('left', (mousePosition[0] + 20) + 'px')
@@ -101,7 +127,7 @@ function drawMap(chartId, legendId, metal, cumul, data) {
                 }
             })
             .on('mouseout', function (d) {
-                d3.select(this).style('opacity', '1');
+                g.selectAll('path').style('opacity', '1');
                 d3.select('.toolTip').classed('hidden', true);
                 d3.select('.toolTipData').html('');
             });
@@ -144,7 +170,8 @@ function drawMap(chartId, legendId, metal, cumul, data) {
                     }
                 }
                 
-                d3.select(this).style('opacity', '0.5');
+                g.selectAll('path').style('opacity', '0.25');
+                d3.select(this).style('opacity', '1');
                 d3.select('.toolTip')
                     .classed('hidden', false)
                     .style('left', (mousePosition[0] + 20) + 'px')
@@ -155,10 +182,11 @@ function drawMap(chartId, legendId, metal, cumul, data) {
                 }
             })
             .on('mouseout', function (d) {
-                d3.select(this).style('opacity', '1');
+                g.selectAll('path').style('opacity', '1');
                 d3.select('.toolTip').classed('hidden', true);
                 d3.select('.toolTipData').html('');
-            });
+            })
+            .style('transition', 'opacity .25s');;
     }
 
     return updateMap;

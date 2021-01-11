@@ -191,12 +191,12 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
                 let reserve = d3.select('#curveCheck').node().checked;
                 let year = d3.select('#mapSlider').node().value;
                 
-                updateMap = drawMap('#map', '', metal, cumul, finalMapData);
+                updateMap = drawMap('#map', metal, cumul, finalMapData);
                 d3.select('#mapSlider').on('input', function () {
                     updateMap(+this.value);
                 });
                 updateMap(+year);
-                drawLinechart("#leg", '', metal, cumul, reserve, finalCurveData);
+                drawLinechart("#leg", metal, cumul, reserve, finalCurveData);
             }
             
             doThings();
