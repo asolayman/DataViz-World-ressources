@@ -115,13 +115,13 @@ hr {
 .toolTipName {
   font-family: Helvetica;
   color: #adadad;
-  font-size: 16px;
+  font-size: 24px;
 }
 
 .toolTipData {
   font-family: Helvetica;
   color: #adadad;
-  font-size: 12px;
+  font-size: 18px;
 }
 
 .legendQuant text.label {
