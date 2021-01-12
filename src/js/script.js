@@ -8,7 +8,7 @@ d3.dsv(';', computerCompositionLink).then(function (data) {
     // console.log(data);
 
     var finalDataOver = [{
-        'name': 'Minéraux en faibles quantités',
+        'name': 'Composants en faibles quantités (<1%)',
         'percentage': 0,
         'weight': 0,
         'info': ''
@@ -58,7 +58,7 @@ d3.dsv(';', phoneCompositionLink).then(function (data) {
     // console.log(data);
 
     var finalDataOver = [{
-        'name': 'Minéraux en faibles quantités',
+        'name': 'Composants en faibles quantités (<1%)',
         'percentage': 0,
         'weight': 0,
         'info': ''
@@ -195,9 +195,24 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
                 d3.select('#mapSlider').on('input', function () {
                     updateMap(+this.value);
                     d3.select('#yearLabel').html('Année (' + +this.value + ')');
+                    
+                    if (cumul) {
+                        d3.select('#titreCarte').html('Production de/d\' ' + metal + ' en ' + +this.value + ', cumulée depuis 1975');
+                    } else {
+                        d3.select('#titreCarte').html('Production de/d\' ' + metal + ' en ' + +this.value);
+                    }
                 });
                 updateMap(+year);
+                
                 d3.select('#yearLabel').html('Année (' + year + ')');
+                if (cumul) {
+                    d3.select('#titreCarte').html('Production de/d\' ' + metal + ' en ' + year + ', cumulée depuis 1975');
+                    d3.select('#titrePlot').html('Production de/d\' ' + metal + ' de 1975 à 2018' + ', cumulée depuis 1975');
+                } else {
+                    d3.select('#titreCarte').html('Production de/d\' ' + metal + ' en ' + year);
+                    d3.select('#titrePlot').html('Production de/d\' ' + metal + ' de 1975 à 2018');
+                }
+                
                 drawLinechart("#leg", metal, cumul, reserve, finalCurveData);
             }
             

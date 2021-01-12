@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Minéraux exploitation</title>
+  
     <meta
         charset="utf-8"
         name="viewport"
@@ -21,7 +23,7 @@
   
   
   <body>
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark" style="transition: top 0.3s;" id="navbar">
         <a class="navbar-brand" href="#">DataViz</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +47,22 @@
         </div>
     </nav>
     
+    <script>
+        /* When the user scrolls down, hide the navbar. When the user scrolls up, show the navbar */
+        var prevScrollpos = window.pageYOffset;
+        window.onscroll = function() {
+          var currentScrollPos = window.pageYOffset;
+          if (prevScrollpos - currentScrollPos < -50) {
+            document.getElementById("navbar").style.top = "-84px";
+            prevScrollpos = currentScrollPos;
+          } else if (prevScrollpos - currentScrollPos > 50) {
+            document.getElementById("navbar").style.top = "0";
+            prevScrollpos = currentScrollPos;
+          }
+          
+        }
+    </script>
+    
     <div class="content-div head-div">
         <img src="./static/op.jpg" alt="Forge image" class="head-img">
         <h1 class="head-title">Extraction des réserves naturelles de minéraux</h1>
@@ -55,76 +73,109 @@
             <i class="fas fa-arrow-circle-down fa-5x iconscroll" onclick='var element = document.getElementById("box");
             element.scrollIntoView({behavior: "smooth", block: "start", inline: "start"});'></i>
         </div>
-        <div id="box" style="position: absolute; bottom: 0px; transform: translateY(-84px);"></div>
     </div>
     
-    <hr style="margin-top: 0; width: 70%;">
+    <hr id="box" style="margin-top: 0; width: 70%;">
     <div class="content-div">
         <div class="inner-div center-div">
-            <h2>Extraction des réserves naturelles de minéraux</h2>
-            <span>Par AYOUBI Solayman & DEVILLERS Alexandre & DULHOSTE Antoine & KRIMI Imran</span>
+            <h1 style="font-size: 2.4rem;">Extraction des réserves naturelles de minéraux</h1>
+            <span style="font-size: 18px; opacity: 0.5;">Par AYOUBI Solayman & DEVILLERS Alexandre & DULHOSTE Antoine & KRIMI Imran</span>
+        </div>
+        
+        <div class="inner-div" style="width: 60%;">
+            <i style="font-size: 20px; opacity: 0.75;">
+                &nbsp;&nbsp;&nbsp;&nbsp;De nos jours on entend souvent dire que les métaux rares viennent à manquer, qu'il ne 
+                sera plus possible de construire de batterie Lithium-ions, et qu'on va bientôt manquer d'or ou de platine. 
+                Cela aurait comme conséquences qu'il ne serait plus possible de construire d'appareils électroniques comme 
+                des ordinateurs ou des téléphones. Seulement voilà, ces affirmations ne sont jamais accompagnées de donnée 
+                ou de visualisation ayant permis de tirer ces conclusions, et on ne trouve que divers rapports sur ce sujet, 
+                dans lesquels les données ne sont même pas formatées pour être exploitées.
+            </i>
         </div>
         
         <div class="inner-div">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            Pour mener l’enquête il nous a fallu trouver des informations sur les diverses compositions des objets 
+            électroniques. Pour cela nous avons pris deux représentants, à savoir le smartphone et l’ordinateur. 
+            Le smartphone est un objet électronique que nous manipulons quotidiennement, et vivre sans relèverait 
+            du défi pour grand nombre de personnes, cela en fait un bon choix pour représenter les appareils électroniques.
+            Grâce à 
+            <a target="_blank" rel="noopener noreferrer" href="https://www.911metallurgist.com/blog/wp-content/uploads/2017/01/Chemical-Analysis-of-an-iPhone-6-by-911Metallurgist.pdf">ce document</a>
+            nous avons pu réaliser <a href="#visuSmartphone">cette visualisation</a>, nous permettant ainsi de nous rendre
+            compte de la proportion des différents minéraux utilisés dans un smartphone.
         </div>
         
-        <div class="inner-div center-div">
-            <h1>Composants d'un ordinateur</h1>
-            <div id="chartElem" style="display: inline-block"></div>
-        </div>
-        
-        <div class="inner-div">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        
-        <div class="inner-div center-div">
-            <h1>Composants d'un ordinateur</h1>
-            <div id="chartPcOver" style="display: inline-block"></div>
-            <div id="legendPcOver" style="display: inline-block"></div>
-            <hr style="width: 70%;">
-            <h3>Minéraux en faibles quantités</h3>
-            <div id="chartPcSub" style="display: inline-block"></div>
-            <div id="legendPcSub" style="display: inline-block"></div>
-        </div>
-        
-        <div class="inner-div">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-        
-        <div class="inner-div center-div">
-            <h1>Composants d'un smartphone</h1>
-            <div id="chartPhoneOver" style="display: inline-block"></div>
+        <div id="visuSmartphone" class="inner-div center-div">
+            <h2>Composants d'un smartphone</h2>
             <div id="legendPhoneOver" style="display: inline-block"></div>
+            <div id="chartPhoneOver" style="display: inline-block"></div>
             <hr style="width: 70%;">
-            <h3>Minéraux en faibles quantités</h3>
-            <div id="chartPhoneSub" style="display: inline-block"></div>
+            <h5>Composants en faibles quantités dans un smartphone (<1%)</h5>
             <div id="legendPhoneSub" style="display: inline-block"></div>
+            <div id="chartPhoneSub" style="display: inline-block"></div>
         </div>
         
         <div class="inner-div">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            De son côté l’ordinateur est avant tout un choix de cœur, nous autres développeurs, travaillons 
+            quasi exclusivement avec, mais cela reste un outil électroniques rependu. Grâce à 
+            <a target="_blank" rel="noopener noreferrer" href="https://www.oeko.de/oekodoc/1375/2012-010-en.pdf">cette étude</a>
+            nous avons pu réaliser <a href="#visuOrdinateur">cette visualisation</a>, nous permettant ainsi de nous rendre
+            compte de la proportion des différents minéraux utilisés dans un ordinateur.
         </div>
         
-        <div class="inner-div center-div">
-            <h1>Carte</h1>
+        <div id="visuOrdinateur" class="inner-div center-div">
+            <h2>Composants d'un ordinateur</h2>
+            <div id="legendPcOver" style="display: inline-block"></div>
+            <div id="chartPcOver" style="display: inline-block"></div>
+            <hr style="width: 70%;">
+            <h5>Composants en faibles quantités dans un ordinateur (<1%)</h5>
+            <div id="legendPcSub" style="display: inline-block"></div>
+            <div id="chartPcSub" style="display: inline-block"></div>
+        </div>
+        
+        <div class="inner-div">
+            Cependant certains métaux sont connus pour être plus chers que d’autres, nous nous sommes alors interrogés 
+            sur l’origine de des différents éléments chimiques qu’on retrouve dans les appareils électroniques. Il se 
+            trouve que tous les éléments à l’exception de l’Hydrogène et l’Hélium sont majoritairement créés dans les 
+            étoiles. Cela s’appelle la nucléosynthèse stellaire, pour les éléments dont le numéro atomique est 
+            inférieur à 26 compris, cela se fait durant la vie de l’étoile. Mais pour tous les autres éléments, 
+            c’est lors de l’explosion d’étoiles massives qu’ils sont formés ce qui est un évènement relativement 
+            rare compte tenu de la durée de vie d’une étoile. Nous avons donc réalisé 
+            <a href="#visuElement">cette visualisation</a> qui permet d’observer 
+            parmi les minéraux utilisés dans les appareils électroniques, ceux qui nécessite l’explosion d’une étoile 
+            pour leur formation.
+        </div>
+        
+        <div id="visuElement" class="inner-div center-div">
+            <h2>Numéro atomique des éléments d'un appareils électroniques</h2>
+            <div id="chartElem" style="display: inline-block"></div><br>
+            <i style="font-size: 20px; opacity: 0.75;">
+                * Limite à partir de laquelle les éléments requièrent l’explosion d’étoiles massives pour se former.
+            </i>
+        </div>
+        
+        <div class="inner-div">
+            Malgré qu’on observe qu’une majorité de ses éléments requièrent une supernova pour se former, cela ne 
+            montre que la rareté au sein de notre univers. Mais à ce jour les minéraux sont exclusivement récoltés 
+            sur Terre, il nous fallait donc trouver les quantités restantes sur Terre, mais aussi la production 
+            sur plusieurs années des différents minéraux pour évaluer combiens d’années il nous reste.  
+            Nous avons donc agrégée les rapports disponibles sur 
+            <a target="_blank" rel="noopener noreferrer" href="https://www2.bgs.ac.uk/mineralsuk/statistics/wms.cfc?method=searchWMS">ce premier site</a>
+            et <a target="_blank" rel="noopener noreferrer" href="https://pubs.usgs.gov/periodicals/mcs2020/">ce deuxième site</a>
+            , afin d’obtenir <a href="#visuProd">ces visualisations</a>. Comme la répartition de ces éléments 
+            n’est pas homogène sur la surface de la Terre, on représente donc pour chaque minéral la production 
+            annuelle des pays, sur une carte du monde et ce sur les années de 1975 à 2018. De plus, un graphique 
+            linéaire permet de mesurer l’écart entre la production à travers les années et les réserves actuelles. 
+            Enfin, il est possible d’afficher la production en version cumulée depuis 1975, ce qui permet de voir 
+            ce qui a été extrait en 44 années.
+        </div>
+        
+        <div id="visuProd" class="inner-div center-div">
+            <h2>Production et réserves</h2>
             
             <div style="padding-top: 5px; width: 50%; display: inline-block;">
                 <form style="padding-top: 5px;">
                     <div class="form-group">
-                        <label for="mapSelect">Métal</label>
+                        <label for="mapSelect" data-toggle="tooltip" data-placement="left" title="Tooltip on left">Métal</label>
                         <select class="form-control" id="mapSelect">
                             <option>Cobalt</option>
                             <option>Terre rare</option>
@@ -175,22 +226,38 @@
                 </form>
             </div>
             <hr style="width: 70%;">
-            <h3>Minéraux en faibles quantités</h3>
+            <h5 id="titreCarte">Production dans le monde</h5>
             <div id="map" style="display: inline-block"></div>
             <hr style="width: 70%;">
-            <h3>Minéraux en faibles quantités</h3>
+            <h5 id="titrePlot">Production de 1975 à 2018</h5>
             <div id="leg" style="display: inline-block"></div>
         </div>
         
         <div class="inner-div">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            On observe ainsi malheureusement que certains métaux rares vont venir à manquer, cependant les réserves 
+            représente ce qu’il est rentable d’exploiter et non les ressources totales disponibles sur Terre. Il est 
+            donc possible qu’une éventuelle pénurie engendre une augmentation des prix, ce qui rendrait certains gisements 
+            rentable à exploiter, augmentant alors dans un dernier souffle les réserves. Mais ce n’est pas une 
+            solution durable, l’exploitation exponentielle de ressources non renouvelables dans un monde fini est 
+            vouée à l’échec. Et en un peu plus de 40 ans certains métaux ont été produits en plus grande quantités 
+            que les reserves actuelles.
+        </div>
+        
+        <div class="inner-div">
+            Et nous n’avons même par traité des méthodes d’extractions de ces différents minéraux, qui la 
+            plupart du temps sont très polluante…
         </div>
     </div>
     
     <div class="spacing-div">
+    </div>
+    
+    <div class="content-div">
+        <div class="inner-div">
+            <span style="font-size: 18px; opacity: 0.5;">
+                
+            </span>
+        </div>
     </div>
 
     <div class="hidden toolTip" style="border: 1px solid #adadad40;">

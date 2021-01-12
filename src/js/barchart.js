@@ -85,5 +85,5 @@ function drawBarchart(chartId, data) {
         .attr("y", y(26)-10)
         .attr("x", 10)
         .attr("fill", "#E15759")
-        .text('Limite sans explosion');
+        .text('Limite sans explosion*');
 }

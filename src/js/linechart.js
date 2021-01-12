@@ -168,7 +168,7 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
         svg.append('text')
             .attr("y", 65)
             .attr("x", 90)
-            .text((cumul) ? 'Réserves 2018 ajouté au cumul actuel':'Réserves 2018');
+            .text((cumul) ? 'Réserves 2018 ajoutées au cumul actuel':'Réserves 2018');
     }
 }
 
