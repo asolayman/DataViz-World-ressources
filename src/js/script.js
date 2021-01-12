@@ -221,3 +221,30 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
 });
 
 
+
+////// METAL ELEMENT //////
+var metalElementLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/metal_element.csv';
+
+d3.dsv(';', metalElementLink).then(function (data) {
+    console.log(data);
+
+    var finalData = [];
+    for (var i = 0; i < data.length; i++) {
+        if (data[i]['Metal'] != "") {
+            let nb = parseFloat(data[i]['Numéro'].replace(',', '.'));
+            
+            if (!Number.isNaN(nb)) {
+                finalData.push({
+                    'name': data[i]['Metal'],
+                    'letter': data[i]['Lettre'],
+                    'number': nb
+                });
+            }
+        }
+    }
+    
+    console.log(finalData);
+
+    drawBarchart('#chartElem', finalData);
+});
+
