@@ -109,9 +109,9 @@ var worldMapLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-re
 d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
     d3.dsv(';', mineralReservesLink).then(function (dataReverves) {
         d3.json(worldMapLink).then(function (jsonMap) {
-            console.log(dataProduction);
-            console.log(dataReverves);
-            console.log(jsonMap);
+            // console.log(dataProduction);
+            // console.log(dataReverves);
+            // console.log(jsonMap);
 
             var finalMapData = jsonMap;
             var finalCurveData = {};
@@ -180,8 +180,8 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
                 }
             }
             
-            console.log(finalMapData);
-            console.log(finalCurveData);
+            // console.log(finalMapData);
+            // console.log(finalCurveData);
             
             
 
@@ -241,7 +241,7 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
 var metalElementLink = 'https://raw.githubusercontent.com/asolayman/DataViz-World-ressources/main/data/metal_element.csv';
 
 d3.dsv(';', metalElementLink).then(function (data) {
-    console.log(data);
+    // console.log(data);
 
     var finalData = [];
     for (var i = 0; i < data.length; i++) {
@@ -258,7 +258,7 @@ d3.dsv(';', metalElementLink).then(function (data) {
         }
     }
     
-    console.log(finalData);
+    // console.log(finalData);
 
     // drawBarchart('#chartElem', finalData);
     
