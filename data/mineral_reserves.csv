@@ -1,26 +1,26 @@
-Metal;Capacité;Unité
-Cobalt;7000000;T
-Terre rare;120000000;T
-Tantale;90000;T
-Argent;560000;K
-Or;50000;K
-Indium;;T
-Groupe du platine;69000;K
-Gallium;;T
-Aluminium;55000000000;T
-Arsenic;660000;T
-Chrome;570000000;T
-Cuivre;870000000;T
-Fer;81000000000;T
-Lithium;17000000;T
-Magnésium;;T
-Manganèse;810000000;T
-Molybdène;18000000;T
-Nickel;89000000;T
-Phosphore;69000000000;T
-Plomb;90000000;T
-Silicium;;T
-Titane;7660000;T
-Vanadium;22000;T
-Tungstène;3200000;T
-Zinc;250000000;T
+Metal;Capacité
+Cobalt;7000000
+Terre rare;120000000
+Tantale;90000
+Argent;560000
+Or;50000
+Indium;
+Groupe du platine;69000
+Gallium;
+Aluminium;55000000000
+Arsenic;660000
+Chrome;570000000
+Cuivre;870000000
+Fer;81000000000
+Lithium;17000000
+Magnésium;
+Manganèse;810000000
+Molybdène;18000000
+Nickel;89000000
+Phosphore;69000000000
+Plomb;90000000
+Silicium;
+Titane;7660000
+Vanadium;22000
+Tungstène;3200000
+Zinc;250000000

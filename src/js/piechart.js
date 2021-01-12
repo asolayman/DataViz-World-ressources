@@ -69,7 +69,7 @@ function drawPiechart(chartId, legendId, data) {
             .style('left', (mousePosition[0] + 20) + "px")
             .style('top', (mousePosition[1] + 20) + "px");
         d3.select('.toolTipName').html(d.data['name']);
-        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g<br>' + d.data['info']);
+        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g' + (d.data['info'] ? ('<br>' + d.data['info']):''));
         
         
         squares.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
@@ -97,7 +97,7 @@ function drawPiechart(chartId, legendId, data) {
             .style('left', (mousePosition[0] + 20) + "px")
             .style('top', (mousePosition[1] + 20) + "px");
         d3.select('.toolTipName').html(d.data['name']);
-        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g<br>' + d.data['info']);
+        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g' + (d.data['info'] ? ('<br>' + d.data['info']):''));
         
         slices.style('opacity', function (slicesData) { return slicesData.data.name === d.data.name ? 1. : 0.25;})
         texts.style('opacity', function (textsData) { return textsData.data.name === d.data.name ? 1. : 0.25;})
@@ -124,7 +124,7 @@ function drawPiechart(chartId, legendId, data) {
             .style('left', (mousePosition[0] + 20) + "px")
             .style('top', (mousePosition[1] + 20) + "px");
         d3.select('.toolTipName').html(d.data['name']);
-        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g<br>' + d.data['info']);
+        d3.select('.toolTipData').html(d.data['percentage'] + '%, ' + d.data['weight'] + 'g' + (d.data['info'] ? ('<br>' + d.data['info']):''));
         
         slices.style('opacity', function (slicesData) { return slicesData.data.name === d.data.name ? 1. : 0.25;})
         squares.style('opacity', function (squaresData) { return squaresData.data.name === d.data.name ? 1. : 0.25;})
