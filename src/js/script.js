@@ -245,6 +245,16 @@ d3.dsv(';', metalElementLink).then(function (data) {
     
     console.log(finalData);
 
-    drawBarchart('#chartElem', finalData);
+    // drawBarchart('#chartElem', finalData);
+    
+    function doThings() {
+        drawBarchart('#chartElem', finalData);
+    }
+    
+    doThings();
+    
+    window.addEventListener('resize', function(event){
+        doThings()
+    });
 });
 

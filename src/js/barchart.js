@@ -5,9 +5,10 @@ function drawBarchart(chartId, data) {
     data.sort(function(a, b) {
         return d3.ascending(a.number, b.number)
     })
-    
-    const width = 800 - 60,
-        height = 400 - 60;
+
+    d3.select(chartId).html('');
+    const width = Math.min(d3.select(chartId).node().parentNode.clientWidth, 800) - 60,
+        height = width/2.;
         
     const x = d3.scaleBand()
         .range([0, width])
