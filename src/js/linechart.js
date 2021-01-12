@@ -1,3 +1,6 @@
+
+
+
 function drawLinechart(chartId, metal, cumul, reserve, data) {
     reserve = reserve && data[metal].reserve;
     
