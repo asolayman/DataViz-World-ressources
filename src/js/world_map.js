@@ -23,7 +23,7 @@ function drawMap(chartId, metal, cumul, data) {
 
     var color = d3.scaleSequential(d3.interpolateBlues);
 
-    let minBound = null;
+    let minBound = 0;
     let maxBound = null;
     for (var i = 0; i < data.features.length; i++) {
         let values = data.features[i].properties.metals[metal];
@@ -35,10 +35,7 @@ function drawMap(chartId, metal, cumul, data) {
                 } else {
                     value = values[k.toString()]['value'];
                 }
-                
-                if (minBound == null || minBound > value)
-                    minBound = value;
-                
+
                 if (maxBound == null || maxBound < value)
                     maxBound = value;
             }
@@ -78,11 +75,11 @@ function drawMap(chartId, metal, cumul, data) {
     svg.append('text')
         .attr("y", 12+height/2.)
         .attr("x", 20)
-        .text(maxBound);
+        .text(maxBound+" tonnes");
     svg.append('text')
         .attr("y", -2+height)
         .attr("x", 20)
-        .text(minBound);
+        .text(minBound+" tonne");
 
     function updateMap(year) {
         g.attr('class', 'update')
@@ -100,7 +97,7 @@ function drawMap(chartId, metal, cumul, data) {
                 if (value) {
                     return color(value);
                 } else {
-                    return '#ADADAD';
+                    return color(minBound);
                 }
             })
             .on('mousemove', function (e, d) {
@@ -124,6 +121,8 @@ function drawMap(chartId, metal, cumul, data) {
                 d3.select('.toolTipName').html(d.properties.name);
                 if (value) {
                     d3.select('.toolTipData').html(metal + ' produit : ' + value + ' tonnes');
+                }else{
+                    d3.select('.toolTipData').html(metal + ' produit : ' + 0 + ' tonnes');
                 }
             })
             .on('mouseout', function (d) {
@@ -155,7 +154,7 @@ function drawMap(chartId, metal, cumul, data) {
                 if (value) {
                     return color(value);
                 } else {
-                    return '#ADADAD';
+                    return color(minBound);
                 }
             })
             .on('mousemove', function (e, d) {
@@ -179,6 +178,8 @@ function drawMap(chartId, metal, cumul, data) {
                 d3.select('.toolTipName').html(d.properties.name);
                 if (value) {
                     d3.select('.toolTipData').html(metal + ' produit : ' + value + ' tonnes');
+                }else{
+                    d3.select('.toolTipData').html(metal + ' produit : ' + 0 + ' tonnes');
                 }
             })
             .on('mouseout', function (d) {

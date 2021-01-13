@@ -79,7 +79,7 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
     svg.append('text')
         .attr("y", 35)
         .attr("x", 90)
-        .text((cumul) ? 'Production cumulée depuis 1975':'Production');
+        .text((cumul) ? 'Production cumulée depuis 1975 (tonne)':'Production (tonne)');
     
     let vLine = null;
     let bubble = null;
@@ -168,7 +168,7 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
         svg.append('text')
             .attr("y", 65)
             .attr("x", 90)
-            .text((cumul) ? 'Réserves 1975':'Réserves 2018');
+            .text((cumul) ? 'Réserves 1975 (tonne)':'Réserves 2018 (tonne)');
     }
 }
 
