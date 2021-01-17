@@ -1,12 +1,14 @@
 # Interactive Data Visualization
 > Visualisation of the extraction of natural mineral reserves
 
+[![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://asolayman.github.io/DataViz-World-ressources/)
+
 ## Description
 
 Nowadays we often hear that rare metals are in short supply, 
 that it will no longer be possible to build lithium-ion batteries, and that gold and platinum will soon be in short supply.  
 This would mean that it would no longer be possible to build electronic devices such as computers or telephones.  
-However, these statements are never accompanied by any data or visualization that would allow these conclusions to be drawn, and there are only various reports on the subject, in which the data are not even formatted for use.  
+However, these statements are never accompanied by any data or visualization that would allow these conclusions to be drawn, and there are only various reports on the subject, in which the data is not even formatted for use.  
 
 ## Usage example
 
