@@ -3,7 +3,7 @@
 
 function drawLinechart(chartId, metal, cumul, reserve, data) {
     reserve = reserve && data[metal].reserve;
-    
+
     var finalData = [];
     for (var key in data[metal]) {
         if (key != 'reserve') {
@@ -15,7 +15,7 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
             finalData[i].reserve += finalData[finalData.length-1].values.cumul;
         }
     }
-    
+
     d3.select(chartId).html('');
     var width = Math.min(d3.select(chartId).node().parentNode.clientWidth, 800) - 205;
     var height = width*0.5;
@@ -28,9 +28,9 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
         .append("g")
         .attr("transform", "translate(" + 150 + "," + 25 + ")");
 
-        
 
-    
+
+
     var x = d3.scaleUtc()
         .domain(d3.extent(finalData, (d) => d['year']))
         .range([0, width]);
@@ -55,8 +55,8 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
         .range(yDomain);
     svg.append("g").call(d3.axisLeft(y));
 
-    
-    
+
+
     svg.append("path")
         .datum(finalData)
         .attr("fill", "none")
@@ -66,7 +66,7 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
             .x((d) => x(d.year))
             .y((d) => y((cumul) ? +d.values.cumul:+d.values.value))
         );
-        
+
     svg.append("path")
         .datum([[30, 30],[80, 30]])
         .attr("fill", "none")
@@ -80,36 +80,37 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
         .attr("y", 35)
         .attr("x", 90)
         .text((cumul) ? 'Production cumulée depuis 1975 (tonne)':'Production (tonne)');
-    
+
     let vLine = null;
     let bubble = null;
-    
+
     svg.append('rect')
         .attr('width', width+5)
         .attr('height', height)
+        .attr('class', 'linechartrect')
         .style('opacity', 0.)
         .on('mousemove', function (e, d) {
             var mousePosition = d3.pointer(e, svg);
-            
+
             let xValue = reverseX(d3.pointer(e)[0]).getFullYear();
             let yValue = null;
-            
+
             for (var i = 0; i < finalData.length; i++) {
                 if (finalData[i].year.getFullYear() == xValue) {
                     yValue = ((cumul) ? +finalData[i].values.cumul:+finalData[i].values.value);
                 }
             }
-            
+
             d3.select('.toolTip')
                 .classed('hidden', false)
                 .style('left', (mousePosition[0] + 20) + 'px')
                 .style('top', (mousePosition[1] + 20) + 'px');
             d3.select('.toolTipName').html('Année : ' + xValue + ', Production : ' + yValue);
             d3.select('.toolTipData').html('Souris : (' + xValue + ', ' + reverseY(d3.pointer(e)[1]) + ')');
-            
+
             if (vLine)
                 vLine.remove();
-            
+
             vLine = svg.append("path")
                 .datum([[x(d3.timeParse("%Y")(xValue)), 0], [x(d3.timeParse("%Y")(xValue)), height]])
                 .attr("fill", "none")
@@ -120,10 +121,10 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
                     .y((d) => d[1])
                 )
                 .attr('pointer-events', "none");
-            
+
             if (bubble)
                 bubble.remove();
-            
+
             bubble = svg.append("circle")
                 .datum([x(d3.timeParse("%Y")(xValue)), yValue])
                 .attr("fill", "#ADADAD")
@@ -131,14 +132,19 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
                 .attr("cx", (d) => d[0])
                 .attr("cy", (d) => y(d[1]))
                 .attr('pointer-events', "none");
+
+            if (mouseDown) {
+                d3.select('#mapSlider').node().value = xValue;
+                d3.select('#mapSlider').dispatch('input');
+            }
         })
         .on('mouseout', function (d) {
             if (vLine)
                 vLine.remove();
-            
+
             if (bubble)
                 bubble.remove();
-            
+
             d3.select('.toolTip').classed('hidden', true);
             d3.select('.toolTipData').html('');
         });
@@ -154,7 +160,7 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
                 .y((d) => y(d.reserve))
             )
             .attr('stroke-dasharray', "10,10");
-            
+
         svg.append("path")
             .datum([[30, 60],[80, 60]])
             .attr("fill", "none")
