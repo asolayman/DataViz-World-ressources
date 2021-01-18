@@ -137,6 +137,11 @@ function drawLinechart(chartId, metal, cumul, reserve, data) {
                 d3.select('#mapSlider').node().value = xValue;
                 d3.select('#mapSlider').dispatch('input');
             }
+            
+            d3.select(this).on('click', function (d) {
+                d3.select('#mapSlider').node().value = xValue;
+                d3.select('#mapSlider').dispatch('input');
+            });
         })
         .on('mouseout', function (d) {
             if (vLine)
