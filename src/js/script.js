@@ -192,7 +192,7 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
 
 
 
-            function doThings() {
+            function updateMapLineTitles() {
                 let metal = d3.select('#mapSelect').node().value;
                 let cumul = d3.select('#mapCheck').node().checked;
                 let reserve = d3.select('#curveCheck').node().checked;
@@ -225,24 +225,24 @@ d3.dsv(';', mineralProductionLink).then(function (dataProduction) {
                 drawLinechart("#leg", metal, cumul, reserve, finalCurveData);
             }
 
-            doThings();
+            updateMapLineTitles();
 
-            window.onresize = () => doThings();
+            window.onresize = () => updateMapLineTitles();
 
             d3.select('#mapSelect').on('input', function () {
-                doThings();
+                updateMapLineTitles();
             });
 
             d3.select('#mapCheck').on('input', function () {
-                doThings();
+                updateMapLineTitles();
             });
 
             d3.select('#curveCheck').on('input', function () {
-                doThings();
+                updateMapLineTitles();
             });
 
             d3.select('#treeSwitch').on('input', function () {
-                doThings();
+                updateMapLineTitles();
             });
         });
     });
@@ -275,14 +275,14 @@ d3.dsv(';', metalElementLink).then(function (data) {
 
     // drawBarchart('#chartElem', finalData);
 
-    function doThings() {
+    function updateBarchart() {
         drawBarchart('#chartElem', finalData);
     }
 
-    doThings();
+    updateBarchart();
 
     window.addEventListener('resize', function(event){
-        doThings()
+        updateBarchart()
     });
 });
 

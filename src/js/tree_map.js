@@ -2,6 +2,7 @@
 
 
 function drawTreemap(chartId, metal, cumul, data) {
+    // Clear div, and get responsive size
     d3.select(chartId).html('');
     var width = Math.min(d3.select(chartId).node().parentNode.clientWidth, 800) - 30;
     var height = width*(320/800.);
@@ -14,36 +15,17 @@ function drawTreemap(chartId, metal, cumul, data) {
 
     var g = svg.append("g");
 
-    var color = d3.scaleSequential(d3.interpolateBlues);
-
-    let minBound = 0;
-    let maxBound = null;
-    for (var i = 0; i < data.features.length; i++) {
-        let values = data.features[i].properties.metals[metal];
-        if (values != undefined) {
-            for (var k = 1975; k <= 2018; k++) {
-                let value = null;
-                if (cumul) {
-                    value = values[k.toString()]['cumul'];
-                } else {
-                    value = values[k.toString()]['value'];
-                }
-
-                if (maxBound == null || maxBound < value)
-                    maxBound = value;
-            }
-        }
-    }
-
-    color.domain([minBound, maxBound]);
-
+    // Build a callback function to return, that'll update the map instead of rebuilding it while slider moves
     function updateMap(year) {
+        // Compute the treemap hierarchy
         var root = d3.hierarchy(data, x => x.features)
             .sum(function(d) {
+                // If "world" (top parent)
                 if (!d.properties) {
                     return 1;
                 }
-
+                
+                // Get value (could be null or undefined so lots of checks)
                 var value = null;
                 if (d.properties.metals[metal] != undefined && d.properties.metals[metal][year.toString()] != undefined) {
                     if (cumul) {
@@ -62,7 +44,8 @@ function drawTreemap(chartId, metal, cumul, data) {
 
         d3.treemap().size([width, height]).padding(2)(root)
 
-
+        
+        // UPDATE PART (juste update color and mouse event like in BUILD part)
         g.attr('class', 'update')
             .selectAll("rect")
             .attr('x', function (d) { return d.x0; })
@@ -72,6 +55,7 @@ function drawTreemap(chartId, metal, cumul, data) {
             .on('mousemove', function (e, d) {
                 var mousePosition = d3.pointer(e, g);
 
+                // Get value (could be null or undefined so lots of checks)
                 var value = null;
                 if (d.data.properties.metals[metal] != undefined && d.data.properties.metals[metal][year.toString()] != undefined) {
                     if (cumul) {
@@ -81,6 +65,7 @@ function drawTreemap(chartId, metal, cumul, data) {
                     }
                 }
 
+                // Highlight the right country + display tooltip
                 g.selectAll("rect").style('opacity', '0.25');
                 d3.select(this).style('opacity', '1');
                 d3.select('.toolTip')
@@ -97,6 +82,7 @@ function drawTreemap(chartId, metal, cumul, data) {
                 g.selectAll(".textsvg").style('opacity', function (textsData) { return textsData === d ? 1 : 0.25;});
             })
             .on('mouseout', function (d) {
+                // Reset opacity + hide tooltip
                 g.selectAll("rect").style('opacity', '1');
                 d3.select('.toolTip').classed('hidden', true);
                 d3.select('.toolTipData').html('');
@@ -105,6 +91,7 @@ function drawTreemap(chartId, metal, cumul, data) {
             })
             .style('transition', 'opacity .25s');
 
+        // Still update part (For textsvg, wich is used to clip text inside rectangles))
         g.attr('class', 'update')
             .selectAll(".textsvg")
             .attr('x', function (d) { return d.x0; })
@@ -112,6 +99,7 @@ function drawTreemap(chartId, metal, cumul, data) {
             .attr('width', function (d) { return d.x1 - d.x0; })
             .attr('height', function (d) { return d.y1 - d.y0; });
 
+        // Still update part (For text)
         g.attr('class', 'update')
             .selectAll("text")
             .text(function (d) { return d.data.properties.name})
@@ -124,6 +112,7 @@ function drawTreemap(chartId, metal, cumul, data) {
                     return '';
                 }
 
+                // Get value (could be null or undefined so lots of checks)
                 var value = null;
                 if (d.data.properties.metals[metal] != undefined && d.data.properties.metals[metal][year.toString()] != undefined) {
                     if (cumul) {
@@ -140,6 +129,9 @@ function drawTreemap(chartId, metal, cumul, data) {
                 }
             });
 
+            
+            
+        // BUILD PART
         g.selectAll("rect")
             .data(root.leaves())
             .enter()
@@ -152,6 +144,7 @@ function drawTreemap(chartId, metal, cumul, data) {
             .on('mousemove', function (e, d) {
                 var mousePosition = d3.pointer(e, g);
 
+                // Get value (could be null or undefined so lots of checks)
                 var value = null;
                 if (d.data.properties.metals[metal] != undefined && d.data.properties.metals[metal][year.toString()] != undefined) {
                     if (cumul) {
@@ -161,6 +154,7 @@ function drawTreemap(chartId, metal, cumul, data) {
                     }
                 }
 
+                // Highlight the right country + display tooltip
                 g.selectAll("rect").style('opacity', '0.25');
                 d3.select(this).style('opacity', '1');
                 d3.select('.toolTip')
@@ -177,6 +171,7 @@ function drawTreemap(chartId, metal, cumul, data) {
                 g.selectAll(".textsvg").style('opacity', function (textsData) { return textsData === d ? 1 : 0.25;});
             })
             .on('mouseout', function (d) {
+                // Reset opacity + hide tooltip
                 g.selectAll("rect").style('opacity', '1');
                 d3.select('.toolTip').classed('hidden', true);
                 d3.select('.toolTipData').html('');
@@ -185,7 +180,8 @@ function drawTreemap(chartId, metal, cumul, data) {
             })
             .style('transition', 'opacity .25s');
 
-
+        // BUILD PART for text
+        // We build svg for each country, so the text clip inside rectangles and don't overlay each other
         g.selectAll(".textsvg")
             .data(root.leaves())
             .enter()
@@ -208,5 +204,6 @@ function drawTreemap(chartId, metal, cumul, data) {
             .attr('pointer-events', "none");
     }
 
+    // Return the tooltip
     return updateMap;
 }

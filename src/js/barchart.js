@@ -2,23 +2,28 @@
 
 
 function drawBarchart(chartId, data) {
+    // Preprocess
     data.sort(function(a, b) {
         return d3.ascending(a.number, b.number)
     })
 
+    // Clear div + responsive size
     d3.select(chartId).html('');
     const width = Math.min(d3.select(chartId).node().parentNode.clientWidth, 800) - 60,
         height = width/2.;
         
+    // Scale for x axis
     const x = d3.scaleBand()
         .range([0, width])
         .domain(data.map(d => d.letter))
         .padding(0.1);
 
+    // Scale for y axis
     const y = d3.scaleLinear()
         .domain([0, d3.max(data, d => d.number)])
         .range([height, 0]);
         
+    // Create the svg for the chart
     const svg = d3.select(chartId).append('svg')
         .attr('id', 'svg')
         .attr('width', width + 60)
@@ -26,6 +31,7 @@ function drawBarchart(chartId, data) {
         .append('g')
         .attr('transform', 'translate(' + 40 + ',' + 20 + ')');
 
+    // Display X axis
     svg.append('g')
         .attr('transform', 'translate(0,' + height + ')')
         .call(d3.axisBottom(x).tickSize(0))
@@ -34,8 +40,10 @@ function drawBarchart(chartId, data) {
             .attr('dx', '-.6em')
             .attr('transform', 'rotate(-65)');
 
+    // Display Y axis
     svg.append("g").call(d3.axisLeft(y).ticks(6));
 
+    // Display bars
     var bars = svg.selectAll(".bar")
         .data(data)
         .enter().append("rect")
@@ -47,6 +55,7 @@ function drawBarchart(chartId, data) {
         .attr("height", d => height - y(d.number))
         .style('transition', 'opacity .25s');
     
+    // Mouse events for highlight/tooltip
     bars.on('mousemove', function (e, d) {
         var mousePosition = d3.pointer(e, bars);
         
@@ -68,7 +77,7 @@ function drawBarchart(chartId, data) {
     });
     
     
-    
+    // Add line for "limit" befor supernova
     svg.append("path")
         .datum([[0, 26], [width, 26]])
         .attr("fill", "none")
@@ -80,7 +89,8 @@ function drawBarchart(chartId, data) {
         )
         .attr('pointer-events', "none")
         .attr('stroke-dasharray', "10,10");
-        
+    
+    // Add small legend text for "limit" line
     svg.append('text')
         .attr("y", y(26)-10)
         .attr("x", 10)
